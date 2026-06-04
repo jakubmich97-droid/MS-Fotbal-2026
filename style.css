@@ -11,8 +11,10 @@ body {
   overflow-x: hidden;
   background:
     linear-gradient(
-      rgba(2, 6, 23, 0.80),
-      rgba(2, 6, 23, 0.80)
+        180deg,
+        #0a2f18 0%,
+        #0d3d1e 35%,
+        #114d25 100%
     ),
     url("./images/rink.png");
   background-size: cover;
@@ -169,9 +171,15 @@ main {
 }
 
 .card {
-  padding: 20px;
-  overflow: hidden;
-  transition: 0.25s ease;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.08),
+    rgba(255,255,255,0.04)
+  );
+
+  backdrop-filter: blur(16px);
+
+  border: 1px solid rgba(255,255,255,0.12);
 }
 
 .chart-card {
@@ -1135,7 +1143,7 @@ footer {
 }
 
 body {
-  color: #f8fafc;
+  color: #eef6ef;
   background:
     radial-gradient(circle at top, rgba(250, 204, 21, 0.13), transparent 34%),
     linear-gradient(rgba(2, 12, 7, 0.84), rgba(2, 12, 7, 0.90)),
@@ -1224,11 +1232,13 @@ h1 {
 .stat-card:hover,
 .match-card:hover,
 .card:hover {
-  border-color: rgba(250, 204, 21, 0.38);
+  transform: translateY(-3px);
+
+  background: rgba(255,255,255,0.08);
+
   box-shadow:
-    0 24px 60px rgba(0, 0, 0, 0.50),
-    0 0 30px rgba(250, 204, 21, 0.10),
-    0 0 34px rgba(34, 197, 94, 0.09);
+    0 10px 30px rgba(0,0,0,0.20),
+    0 0 20px rgba(34,197,94,0.12);
 }
 
 .stat-card strong,
