@@ -1429,6 +1429,17 @@ footer {
   color: #f8fafc;
   font-size: 16px;
 }
+.admin-form select,
+#tip-form select,
+.player-select {
+  color-scheme: dark;
+}
+.admin-form select option,
+#tip-form select option,
+.player-select option {
+  background: #0f3d25;
+  color: #ffffff;
+}
 
 .admin-form input:focus,
 .admin-form select:focus {
