@@ -1117,3 +1117,265 @@ footer {
 
   opacity: 0.9;
 }
+/* =========================
+   FOOTBALL THEME OVERRIDES
+   Vlož na konec style.css
+   ========================= */
+
+:root {
+  --pitch-dark: #052e16;
+  --pitch: #166534;
+  --pitch-light: #22c55e;
+  --gold: #facc15;
+  --gold-soft: rgba(250, 204, 21, 0.18);
+  --white-soft: rgba(255, 255, 255, 0.16);
+  --card-bg: rgba(6, 24, 14, 0.78);
+  --card-border: rgba(250, 204, 21, 0.18);
+  --text-soft: #bbf7d0;
+}
+
+body {
+  color: #f8fafc;
+  background:
+    radial-gradient(circle at top, rgba(250, 204, 21, 0.13), transparent 34%),
+    linear-gradient(rgba(2, 12, 7, 0.84), rgba(2, 12, 7, 0.90)),
+    repeating-linear-gradient(
+      90deg,
+      #064e3b 0,
+      #064e3b 90px,
+      #065f46 90px,
+      #065f46 180px
+    );
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+body::before {
+  opacity: 0.20;
+  background-image:
+    linear-gradient(to right, transparent 49.8%, rgba(255,255,255,0.45) 50%, transparent 50.2%),
+    linear-gradient(to bottom, transparent 49.8%, rgba(255,255,255,0.28) 50%, transparent 50.2%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 120px);
+  background-size: 100% 100%, 100% 100%, 120px 120px;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 280px;
+  height: 280px;
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero {
+  padding-top: 70px;
+}
+
+.eyebrow,
+.last-update,
+th,
+.match-date,
+.playoff-title,
+.flip-card-back span,
+.nav-link.active,
+.player-name-button:hover,
+.day-toggle::after {
+  color: var(--gold);
+}
+
+h1 {
+  text-shadow:
+    0 0 22px rgba(250, 204, 21, 0.26),
+    0 0 46px rgba(34, 197, 94, 0.14);
+}
+
+.subtitle,
+.section-header p,
+.stat-label,
+.day-count,
+.select-label,
+.leaderboard-note,
+.form-legend,
+.player-stat-box span {
+  color: var(--text-soft);
+}
+
+.stat-card,
+.card,
+.match-card,
+.playoff-card,
+.day-toggle,
+.player-modal-content,
+.player-stat-box {
+  background: var(--card-bg);
+  border-color: var(--card-border);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.stat-card:hover,
+.match-card:hover,
+.card:hover {
+  border-color: rgba(250, 204, 21, 0.38);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.50),
+    0 0 30px rgba(250, 204, 21, 0.10),
+    0 0 34px rgba(34, 197, 94, 0.09);
+}
+
+.stat-card strong,
+.rules strong,
+.player-stat-box strong,
+.subsection-title,
+.player-name-button {
+  color: #fef9c3;
+}
+
+.leader-badge {
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.22), rgba(34, 197, 94, 0.16));
+  border-color: rgba(250, 204, 21, 0.42);
+  color: #fef08a;
+  box-shadow: 0 0 24px rgba(250, 204, 21, 0.16);
+}
+
+tbody tr:hover {
+  background: rgba(34, 197, 94, 0.11);
+}
+
+.score-pill {
+  color: #fef9c3;
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.18), rgba(34, 197, 94, 0.18));
+  border-color: rgba(250, 204, 21, 0.32);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 0 24px rgba(250, 204, 21, 0.10);
+}
+
+.match-card-upcoming .score-pill {
+  color: #bbf7d0;
+  background: rgba(22, 101, 52, 0.28);
+  border-color: rgba(187, 247, 208, 0.18);
+}
+
+.flag,
+.table-flag,
+.playoff-flag {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.badge-exact {
+  background: rgba(34, 197, 94, 0.20);
+  color: #bbf7d0;
+  border-color: rgba(187, 247, 208, 0.26);
+}
+
+.badge-close {
+  background: rgba(250, 204, 21, 0.20);
+  color: #fef08a;
+  border-color: rgba(254, 240, 138, 0.26);
+}
+
+.badge-zero {
+  background: rgba(255, 255, 255, 0.09);
+  color: #d1fae5;
+  border-color: rgba(209, 250, 229, 0.12);
+}
+
+.rules-divider {
+  background: linear-gradient(to right, transparent, rgba(250, 204, 21, 0.58), transparent);
+}
+
+.nav-link {
+  background: rgba(6, 24, 14, 0.76);
+  border-color: rgba(250, 204, 21, 0.15);
+  color: #d1fae5;
+}
+
+.nav-link:hover {
+  border-color: rgba(250, 204, 21, 0.34);
+  color: #fef9c3;
+}
+
+.nav-link.active {
+  background: rgba(250, 204, 21, 0.12);
+  border-color: rgba(250, 204, 21, 0.36);
+  box-shadow: 0 0 18px rgba(250, 204, 21, 0.15);
+}
+
+#tip-form input,
+#tip-form select,
+.player-select {
+  background: rgba(6, 24, 14, 0.94);
+  border-color: rgba(250, 204, 21, 0.20);
+  color: #f8fafc;
+}
+
+#tip-form input:focus,
+#tip-form select:focus,
+.player-select:focus {
+  border-color: rgba(250, 204, 21, 0.64);
+  box-shadow: 0 0 18px rgba(250, 204, 21, 0.16);
+}
+
+#tip-form button {
+  background: linear-gradient(135deg, #16a34a, #ca8a04);
+}
+
+#tip-form button:hover {
+  box-shadow: 0 10px 24px rgba(250, 204, 21, 0.22);
+}
+
+.qualified-row td:first-child {
+  border-left-color: #22c55e;
+}
+
+.relegated-row td:first-child {
+  border-left-color: #ef4444;
+}
+
+.qualified-row {
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.relegated-row {
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.floating-puck {
+  width: 94px;
+  height: 94px;
+  opacity: 0.18;
+  background:
+    radial-gradient(circle at 35% 32%, rgba(255,255,255,0.95) 0 12%, transparent 13%),
+    radial-gradient(circle, #f8fafc 0 58%, #111827 59% 62%, #f8fafc 63% 100%);
+  box-shadow: 0 0 26px rgba(255,255,255,0.10);
+}
+
+.floating-puck::before {
+  inset: 18px;
+  border: 2px solid rgba(17, 24, 39, 0.75);
+}
+
+#leaderboard tbody tr:nth-child(1) {
+  background: linear-gradient(90deg, rgba(250, 204, 21, 0.16), transparent 70%);
+}
+
+#leaderboard tbody tr:nth-child(2) {
+  background: linear-gradient(90deg, rgba(229, 231, 235, 0.11), transparent 70%);
+}
+
+#leaderboard tbody tr:nth-child(3) {
+  background: linear-gradient(90deg, rgba(251, 146, 60, 0.13), transparent 70%);
+}
+
+footer {
+  color: #86efac;
+}
