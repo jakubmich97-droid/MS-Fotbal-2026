@@ -747,7 +747,7 @@ function openPlayerModal(player) {
       : "-";
 
   const conservativeLabel =
-    offensiveAvg !== "-" && Number(offensiveAvg) <= 2,5
+    offensiveAvg !== "-" && Number(offensiveAvg) <= 2.5
       ? "Spíš konzervativní"
       : "Spíš ofenzivní";
 
