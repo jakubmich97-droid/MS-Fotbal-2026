@@ -281,9 +281,6 @@ async function submitTip() {
     .insert({
       player_name: playerName,
       match_id: match.id,
-      match_date: match.match_date,
-      home_team: match.home_team,
-      away_team: match.away_team,
       tip_home: tipHome,
       tip_away: tipAway
     });
