@@ -1379,3 +1379,93 @@ tbody tr:hover {
 footer {
   color: #86efac;
 }
+.admin-page {
+  margin-top: 40px;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 48px;
+  align-items: start;
+}
+
+.admin-card h2 {
+  font-size: 28px;
+  margin-bottom: 22px;
+  color: #f8fafc;
+}
+
+.admin-form {
+  display: grid;
+  gap: 16px;
+}
+
+.admin-form label {
+  display: block;
+  margin-bottom: 7px;
+  color: #cbd5e1;
+  font-weight: 800;
+}
+
+.admin-form input,
+.admin-form select {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(250, 204, 21, 0.25);
+  background: rgba(2, 6, 23, 0.72);
+  color: #f8fafc;
+  font-size: 16px;
+}
+
+.admin-form input:focus,
+.admin-form select:focus {
+  outline: none;
+  border-color: rgba(250, 204, 21, 0.7);
+  box-shadow: 0 0 20px rgba(250, 204, 21, 0.16);
+}
+
+.admin-two-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.admin-form button {
+  margin-top: 8px;
+  padding: 15px 18px;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #facc15, #ca8a04);
+  color: #102014;
+  font-weight: 950;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.admin-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(250, 204, 21, 0.22);
+}
+
+#admin-status,
+#result-status {
+  margin-top: 14px;
+  font-weight: 800;
+  color: #fde68a;
+}
+
+@media (max-width: 900px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .admin-two-cols {
+    grid-template-columns: 1fr;
+  }
+}
