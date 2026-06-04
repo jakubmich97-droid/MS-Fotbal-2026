@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <title>Odeslat tip</title>
+  <title>Odeslat tip · MS Fotbal 2026</title>
 
   <link rel="stylesheet" href="style.css">
 
@@ -14,14 +14,14 @@
 <body>
   <header class="hero">
     <div class="hero-content">
-      <p class="eyebrow">🏒 Hokejová tipovačka</p>
+      <p class="eyebrow">⚽ Fotbalová tipovačka</p>
       <h1>Odeslat tip</h1>
       <p class="subtitle">Vyber tipéra a zápas, který ještě netipoval.</p>
 
       <nav class="top-nav">
-        <a href="./index.html" class="nav-link">🏒 Tipovačka</a>
-        <a href="./worlds.html" class="nav-link">🌍 MS podle tipérů</a>
+        <a href="./index.html" class="nav-link">⚽ Tipovačka</a>
         <a href="./submit.html" class="nav-link active">📝 Odeslat tip</a>
+        <a href="./admin.html" class="nav-link">🔐 Admin</a>
       </nav>
     </div>
   </header>
@@ -30,7 +30,7 @@
     <section class="section">
       <div class="card submit-card">
         <form id="tip-form">
-          <label for="player-name">Jméno</label>
+          <label for="player-name">Jméno tipéra</label>
           <select id="player-name" required>
             <option value="">Vyber tipéra</option>
             <option value="Kuba">Kuba</option>
@@ -58,6 +58,10 @@
             </div>
           </div>
 
+          <p class="submit-note">
+            Stejný přesný tip může zadat více tipérů.
+          </p>
+
           <button type="submit">📩 Odeslat tip</button>
         </form>
 
@@ -65,6 +69,10 @@
       </div>
     </section>
   </main>
+
+  <footer>
+    <p>⚽ MS Fotbal 2026 · tipovačka pro gaučové experty</p>
+  </footer>
 
   <script src="submit.js"></script>
 </body>
