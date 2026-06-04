@@ -136,7 +136,7 @@ async function submitMatch() {
     document.getElementById("match-date").value;
 
   const groupName =
-    document.getElementById("match-group").value.trim();
+     document.getElementById("match-group").value;
 
   const homeTeam =
     document.getElementById("home-team").value;
