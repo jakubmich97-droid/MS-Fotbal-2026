@@ -5,10 +5,7 @@ const SUPABASE_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJtcWFpYXliZnhkZnhicXpuaGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5NDk4NzEsImV4cCI6MjA5NDUyNTg3MX0.tF9SRcNiwbNmBv7fr0GV-psZ76AKOgiSFCOAn1degok";
 
 const supabaseClient =
-  supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+  supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let allMatches = [];
 let allTips = [];
@@ -23,15 +20,23 @@ async function initSubmitPage() {
 initSubmitPage();
 
 async function loadMatches() {
-  const response = await fetch("./data/matches.json");
-  const data = await response.json();
+  const { data, error } = await supabaseClient
+    .from("matches")
+    .select("*")
+    .order("match_date", { ascending: true });
 
-  allMatches = data.matches;
+  if (error) {
+    console.error(error);
+    allMatches = [];
+    return;
+  }
+
+  allMatches = data || [];
 }
 
 async function loadTips() {
   const { data, error } = await supabaseClient
-    .from("tips_inbox")
+    .from("tips")
     .select("*");
 
   if (error) {
@@ -64,11 +69,7 @@ function setupEvents() {
 }
 
 function isMatchUpcoming(match) {
-  return match.resultHome === "-" && match.resultAway === "-";
-}
-
-function getMatchId(match) {
-  return `${match.home}-${match.away}-${match.date}`;
+  return match.result_home === null || match.result_away === null;
 }
 
 function renderAvailableMatches() {
@@ -90,12 +91,10 @@ function renderAvailableMatches() {
   const availableMatches = allMatches.filter(match => {
     if (!isMatchUpcoming(match)) return false;
 
-    const matchId = getMatchId(match);
-
     const alreadyTipped = allTips.some(tip => {
       return (
         tip.player_name === playerName &&
-        tip.match_id === matchId
+        String(tip.match_id) === String(match.id)
       );
     });
 
@@ -117,10 +116,10 @@ function renderAvailableMatches() {
   availableMatches.forEach(match => {
     const option = document.createElement("option");
 
-    option.value = getMatchId(match);
+    option.value = match.id;
 
     option.textContent =
-      `${formatDate(match.date)} · ${match.home} vs ${match.away}`;
+      `${formatDate(match.match_date)} · ${match.group_name} · ${match.home_team} vs ${match.away_team}`;
 
     matchSelect.appendChild(option);
   });
@@ -138,13 +137,13 @@ function renderOtherTips() {
   if (!matchId) return;
 
   const match = allMatches.find(item => {
-    return getMatchId(item) === matchId;
+    return String(item.id) === String(matchId);
   });
 
   if (!match) return;
 
   const tipsForMatch = allTips.filter(tip => {
-    return tip.match_id === matchId;
+    return String(tip.match_id) === String(matchId);
   });
 
   const tipsHtml = tipsForMatch.length > 0
@@ -167,19 +166,19 @@ function renderOtherTips() {
       <div class="match-header">
         <div>
           <div class="match-date">
-            ${formatDate(match.date)}
+            ${formatDate(match.match_date)}
           </div>
 
           <div class="match-scoreline">
             <div class="team-side">
               <img
-                src="./images/flags/${match.homeFlag}.webp"
+                src="./images/flags/${match.home_flag}.webp"
                 class="flag"
-                alt="${match.home}"
+                alt="${match.home_team}"
               >
 
               <span class="team-name">
-                ${match.home}
+                ${match.home_team}
               </span>
             </div>
 
@@ -189,13 +188,13 @@ function renderOtherTips() {
 
             <div class="team-side">
               <img
-                src="./images/flags/${match.awayFlag}.webp"
+                src="./images/flags/${match.away_flag}.webp"
                 class="flag"
-                alt="${match.away}"
+                alt="${match.away_team}"
               >
 
               <span class="team-name">
-                ${match.away}
+                ${match.away_team}
               </span>
             </div>
           </div>
@@ -243,8 +242,18 @@ async function submitTip() {
     return;
   }
 
+  if (
+    Number.isNaN(tipHome) ||
+    Number.isNaN(tipAway) ||
+    tipHome < 0 ||
+    tipAway < 0
+  ) {
+    status.innerHTML = "❌ Zadej platné skóre.";
+    return;
+  }
+
   const match = allMatches.find(item => {
-    return getMatchId(item) === matchId;
+    return String(item.id) === String(matchId);
   });
 
   if (!match) {
@@ -253,7 +262,7 @@ async function submitTip() {
   }
 
   const tipsForMatch = allTips.filter(tip => {
-    return tip.match_id === matchId;
+    return String(tip.match_id) === String(matchId);
   });
 
   const samePlayerAlreadyTipped = tipsForMatch.some(tip => {
@@ -265,29 +274,16 @@ async function submitTip() {
     return;
   }
 
-  const duplicateScore = tipsForMatch.some(tip => {
-    return (
-      Number(tip.tip_home) === tipHome &&
-      Number(tip.tip_away) === tipAway
-    );
-  });
-
-  if (duplicateScore) {
-    status.innerHTML =
-      "❌ Tenhle přesný tip už někdo dal. Vyber jiné skóre.";
-    return;
-  }
-
   status.innerHTML = "⏳ Odesílám tip...";
 
   const { error } = await supabaseClient
-    .from("tips_inbox")
+    .from("tips")
     .insert({
       player_name: playerName,
-      match_id: matchId,
-      match_date: match.date,
-      home_team: match.home,
-      away_team: match.away,
+      match_id: match.id,
+      match_date: match.match_date,
+      home_team: match.home_team,
+      away_team: match.away_team,
       tip_home: tipHome,
       tip_away: tipAway
     });
@@ -310,10 +306,13 @@ async function submitTip() {
 }
 
 function formatDate(dateString) {
+  if (!dateString) return "";
+
   const date = new Date(dateString);
 
   return date.toLocaleDateString("cs-CZ", {
     day: "numeric",
-    month: "long"
+    month: "long",
+    year: "numeric"
   });
 }
