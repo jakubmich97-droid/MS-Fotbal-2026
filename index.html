@@ -4,110 +4,59 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>MS Tipovačka 2026</title>
+  <title>MS Fotbal Tipovačka 2026</title>
 
   <link rel="stylesheet" href="style.css" />
-
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
   <header class="hero">
     <div class="hero-content">
-      <p class="eyebrow">🏒 Hokejová tipovačka</p>
-      <h1>MS Tipovačka 2026</h1>
-      <p class="subtitle">Kdo má nejlepší hokejový čuch?</p>
+      <p class="eyebrow">⚽ Fotbalová tipovačka</p>
+      <h1>MS Fotbal 2026</h1>
+      <p class="subtitle">Kdo má nejlepší fotbalový čuch?</p>
       <p class="last-update" id="last-update"></p>
 
       <nav class="top-nav">
-<a href="./index.html" class="nav-link active">
-  🏒 Tipovačka
-</a>
-
-<a href="./worlds.html" class="nav-link">
-  🌍 MS podle tipérů
-</a>
-
-<a href="./submit.html" class="nav-link">
-  📝 Odeslat tip
-</a>
+        <a href="./index.html" class="nav-link active">⚽ Tipovačka</a>
+        <a href="./submit.html" class="nav-link">📝 Odeslat tip</a>
+        <a href="./admin.html" class="nav-link">🔐 Admin</a>
       </nav>
     </div>
   </header>
 
   <main>
     <section class="stats-panel">
-<div class="stats-grid">
-  <div class="stat-card stats-combined">
-    <div>
-      <span class="stat-label">Tipéři</span>
-      <strong id="players-count">0</strong>
-    </div>
+      <div class="stats-grid">
+        <div class="stat-card stats-combined">
+          <div>
+            <span class="stat-label">Tipéři</span>
+            <strong id="players-count">0</strong>
+          </div>
 
-    <div>
-      <span class="stat-label">Zápasy</span>
-      <strong id="matches-count">0</strong>
-    </div>
+          <div>
+            <span class="stat-label">Zápasy</span>
+            <strong id="matches-count">0</strong>
+          </div>
 
-    <div>
-      <span class="stat-label">Přesné trefy</span>
-      <strong id="exact-count">0</strong>
-    </div>
-  </div>
-
-  <div class="stat-card">
-    <span class="stat-label">Aktuální lídr</span>
-    <strong id="current-leader">-</strong>
-  
-</div>
-<!--
-      <div class="daily-awards">
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img src="./images/cards/tiper-dne.png" alt="Tipér dne">
-            </div>
-
-            <div class="flip-card-back">
-              <span>🏆 Tipér dne</span>
-              <strong id="daily-best">-</strong>
-            </div>
+          <div>
+            <span class="stat-label">Přesné trefy</span>
+            <strong id="exact-count">0</strong>
           </div>
         </div>
 
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img src="./images/cards/smolar-dne.png" alt="Smolař dne">
-            </div>
-
-            <div class="flip-card-back">
-              <span>😬 Smolař dne</span>
-              <strong id="daily-worst">-</strong>
-            </div>
-          </div>
-        </div>
-
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img src="./images/cards/ostrosrelec.png" alt="Ostrostřelec">
-            </div>
-
-            <div class="flip-card-back">
-              <span>🎯 Ostrostřelec</span>
-              <strong id="daily-sharpshooter">-</strong>
-            </div>
-          </div>
+        <div class="stat-card">
+          <span class="stat-label">Aktuální lídr</span>
+          <strong id="current-leader">-</strong>
         </div>
       </div>
--->
     </section>
 
     <section class="section">
       <div class="section-header">
         <h2>🏆 Celkové pořadí</h2>
-        <p>3 body za přesný výsledek, 1 bod za nejbližší tip.</p>
+        <p>1 bod za trefeného vítěze/remízu, 1 bod za nejbližší tip.</p>
       </div>
 
       <div class="card">
@@ -124,13 +73,14 @@
           <tbody></tbody>
         </table>
       </div>
+
       <div class="form-legend">
         <p class="leaderboard-note">
-  🎯 Při rovnosti bodů rozhoduje přesnost skóre.
-</p>
-  <span>🟢 = bodoval</span>
-  <span>🟡 = trefil vítěze</span>
-  <span>⚫ = netrefil vítěze</span>
+          🎯 Při rovnosti bodů rozhoduje přesnost skóre.
+        </p>
+        <span>🟢 = bodoval</span>
+        <span>🟡 = trefil vítěze/remízu</span>
+        <span>⚫ = netrefil</span>
       </div>
     </section>
 
@@ -164,42 +114,39 @@
       </div>
 
       <div class="card rules">
-        <p>✅ Přesný výsledek = <strong>3 body</strong></p>
+        <p>✅ Trefený vítěz/remíza = <strong>1 bod</strong></p>
         <p>🎯 Nejbližší skóre = <strong>1 bod</strong></p>
 
         <hr class="rules-divider">
 
         <p>
-          Pokud nikdo netrefí přesný výsledek, hledá se nejbližší tip.
-          Nejbližší tip se určuje podle rozdílu mezi tipovaným a skutečným skóre obou týmů.
+          Nejbližší tip se určuje podle rozdílu mezi tipovaným
+          a skutečným skóre obou týmů.
         </p>
 
         <p>
-          Nejbližší tip se nejdříve hledá pouze mezi tipy, které správně určily vítěze zápasu.
-          Pokud má více hráčů stejně blízký tip, získají 1 bod všichni.
+          Pokud má více hráčů stejně blízký tip, získají bod všichni.
         </p>
 
         <p>
-          Pokud alespoň jeden hráč trefí přesný výsledek, bod za nejbližší skóre se už v daném zápase nerozdává.
+          Stejný přesný tip může mít více hráčů.
         </p>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>🏒 MS Tipovačka 2026 · vytvořeno pro partu hokejových expertů od gauče</p>
+    <p>⚽ MS Fotbal 2026 · tipovačka pro gaučové experty</p>
   </footer>
-  
+
   <div id="player-modal" class="player-modal">
-  <div class="player-modal-content">
-    <button id="player-modal-close" class="player-modal-close">×</button>
-
-    <h2 id="player-modal-name">Hráč</h2>
-
-    <div id="player-modal-stats" class="player-modal-stats"></div>
+    <div class="player-modal-content">
+      <button id="player-modal-close" class="player-modal-close">×</button>
+      <h2 id="player-modal-name">Hráč</h2>
+      <div id="player-modal-stats" class="player-modal-stats"></div>
+    </div>
   </div>
-</div>
+
   <script src="script.js"></script>
-  <div class="floating-puck"></div>
 </body>
-  </html>
+</html>
