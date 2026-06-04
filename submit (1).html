@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Odeslat tip</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <p class="eyebrow">🏒 Hokejová tipovačka</p>
+      <h1>Odeslat tip</h1>
+      <p class="subtitle">Vyber tipéra a zápas, který ještě netipoval.</p>
+
+      <nav class="top-nav">
+        <a href="./index.html" class="nav-link">🏒 Tipovačka</a>
+        <a href="./worlds.html" class="nav-link">🌍 MS podle tipérů</a>
+        <a href="./submit.html" class="nav-link active">📝 Odeslat tip</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="submit-page">
+    <section class="section">
+      <div class="card submit-card">
+        <form id="tip-form">
+          <label for="player-name">Jméno</label>
+          <select id="player-name" required>
+            <option value="">Vyber tipéra</option>
+            <option value="Kuba">Kuba</option>
+            <option value="Dejv">Dejv</option>
+            <option value="Jiřoch">Jiřoch</option>
+            <option value="Luba">Luba</option>
+          </select>
+
+          <label for="match-select">Zápas</label>
+          <select id="match-select" required disabled>
+            <option value="">Nejdřív vyber tipéra</option>
+          </select>
+
+          <div id="other-tips"></div>
+
+          <div class="score-inputs">
+            <div>
+              <label for="tip-home">Domácí</label>
+              <input type="number" id="tip-home" min="0" max="20" required>
+            </div>
+
+            <div>
+              <label for="tip-away">Hosté</label>
+              <input type="number" id="tip-away" min="0" max="20" required>
+            </div>
+          </div>
+
+          <button type="submit">📩 Odeslat tip</button>
+        </form>
+
+        <div id="submit-status"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="submit.js"></script>
+</body>
+</html>

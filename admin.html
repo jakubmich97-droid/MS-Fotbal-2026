@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Admin · MS Tipovačka 2026</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <p class="eyebrow">⚽ Fotbalová tipovačka</p>
+      <h1>Admin</h1>
+      <p class="subtitle">Vkládání zápasů do Supabase.</p>
+
+      <nav class="top-nav">
+        <a href="./index.html" class="nav-link">🏆 Tipovačka</a>
+        <a href="./submit.html" class="nav-link">📝 Odeslat tip</a>
+        <a href="./admin.html" class="nav-link active">⚙️ Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="submit-page">
+    <section class="section">
+      <div class="card submit-card">
+        <form id="admin-match-form">
+          <label for="match-date">Datum a čas zápasu</label>
+          <input type="datetime-local" id="match-date" required />
+
+          <label for="group-name">Skupina / fáze</label>
+          <input type="text" id="group-name" placeholder="A, B, osmifinále..." required />
+
+          <label for="home-team">Domácí tým</label>
+          <input type="text" id="home-team" required />
+
+          <label for="away-team">Hostující tým</label>
+          <input type="text" id="away-team" required />
+
+          <div class="score-inputs">
+            <div>
+              <label for="home-flag">Vlajka domácího</label>
+              <input type="text" id="home-flag" placeholder="cz, de, br..." required />
+            </div>
+
+            <div>
+              <label for="away-flag">Vlajka hosta</label>
+              <input type="text" id="away-flag" placeholder="sk, fr, ar..." required />
+            </div>
+          </div>
+
+          <button type="submit">➕ Přidat zápas</button>
+        </form>
+
+        <div id="admin-status"></div>
+      </div>
+    </section>
+
+    <section class="section" style="width: 100%;">
+      <div class="section-header">
+        <h2>📋 Zápasy v databázi</h2>
+      </div>
+
+      <div class="card">
+        <table id="admin-matches-table">
+          <thead>
+            <tr>
+              <th>Datum</th>
+              <th>Skupina</th>
+              <th>Zápas</th>
+              <th>Výsledek</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>

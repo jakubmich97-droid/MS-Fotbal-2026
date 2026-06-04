@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>MS Tipovačka 2026</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="worlds.js"></script>
+</head>
+
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <p class="eyebrow">🏒 Hokejová tipovačka</p>
+      <h1>MS Tipovačka 2026</h1>
+      <p class="subtitle">Kdo má nejlepší hokejový čuch?</p>
+      <p class="last-update" id="last-update"></p>
+
+      <nav class="top-nav">
+<a href="./index.html" class="nav-link">
+  🏒 Tipovačka
+</a>
+
+<a href="./worlds.html" class="nav-link active">
+  🌍 MS podle tipérů
+</a>
+
+<a href="./submit.html" class="nav-link">
+  📝 Odeslat tip
+</a>
+      </nav>
+    </div>
+  </header>
+
+  
+<main>
+<section class="section">
+  <div class="section-header">
+    <h2>🌍 MS podle tipéra</h2>
+    <p>Vyber hráče a podívej se, jak by vypadaly skupiny podle jeho tipů.</p>
+  </div>
+
+  <div class="card">
+    <label for="player-select" class="select-label">Vyber tipéra</label>
+    <select id="player-select" class="player-select"></select>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <h2>📊 Skupina A</h2>
+  </div>
+
+  <div class="card">
+    <table id="group-a-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Tým</th>
+          <th>Z</th>
+          <th>V</th>
+          <th>P</th>
+          <th>G</th>
+          <th>B</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <h2>📊 Skupina B</h2>
+  </div>
+
+  <div class="card">
+    <table id="group-b-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Tým</th>
+          <th>Z</th>
+          <th>V</th>
+          <th>P</th>
+          <th>G</th>
+          <th>B</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+  <section class="section">
+  <div class="section-header">
+    <h2>🏆 Play-off podle tipéra</h2>
+    <p>Generováno z TOP 4 týmů ve skupinách.</p>
+  </div>
+
+  <div id="playoff-bracket" class="playoff-grid"></div>
+</section>
+</main>
+
+
+  <footer>
+    <p>🏒 MS Tipovačka 2026 · vytvořeno pro partu hokejových expertů od gauče</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
