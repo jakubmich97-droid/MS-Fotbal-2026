@@ -25,61 +25,98 @@
     </div>
   </header>
 
-  <main class="submit-page">
-    <section class="section">
-      <div class="card submit-card">
-        <form id="admin-match-form">
-          <label for="match-date">Datum a čas zápasu</label>
-          <input type="datetime-local" id="match-date" required />
+<main class="admin-page">
+  <section class="admin-grid">
 
-          <label for="group-name">Skupina / fáze</label>
-          <input type="text" id="group-name" placeholder="A, B, osmifinále..." required />
+    <div class="card admin-card">
+      <h2>➕ Přidat zápas</h2>
 
-          <label for="home-team">Domácí tým</label>
-          <input type="text" id="home-team" required />
+      <form id="match-form" class="admin-form">
+        <label>Datum a čas zápasu</label>
+        <input type="datetime-local" id="match-date" required>
 
-          <label for="away-team">Hostující tým</label>
-          <input type="text" id="away-team" required />
+        <label>Skupina / fáze</label>
+        <input type="text" id="match-group" placeholder="A, B, osmifinále..." required>
 
-          <div class="score-inputs">
-            <div>
-              <label for="home-flag">Vlajka domácího</label>
-              <input type="text" id="home-flag" placeholder="cz, de, br..." required />
-            </div>
-
-            <div>
-              <label for="away-flag">Vlajka hosta</label>
-              <input type="text" id="away-flag" placeholder="sk, fr, ar..." required />
-            </div>
+        <div class="admin-two-cols">
+          <div>
+            <label>Domácí tým</label>
+            <input type="text" id="home-team" required>
           </div>
 
-          <button type="submit">➕ Přidat zápas</button>
-        </form>
+          <div>
+            <label>Hostující tým</label>
+            <input type="text" id="away-team" required>
+          </div>
+        </div>
 
-        <div id="admin-status"></div>
-      </div>
-    </section>
+        <div class="admin-two-cols">
+          <div>
+            <label>Vlajka domácího</label>
+            <input type="text" id="home-flag" placeholder="cz, de, br..." required>
+          </div>
 
-    <section class="section" style="width: 100%;">
-      <div class="section-header">
-        <h2>📋 Zápasy v databázi</h2>
-      </div>
+          <div>
+            <label>Vlajka hosta</label>
+            <input type="text" id="away-flag" placeholder="sk, fr, ar..." required>
+          </div>
+        </div>
 
-      <div class="card">
-        <table id="admin-matches-table">
-          <thead>
-            <tr>
-              <th>Datum</th>
-              <th>Skupina</th>
-              <th>Zápas</th>
-              <th>Výsledek</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </section>
-  </main>
+        <button type="submit">➕ Přidat zápas</button>
+      </form>
+
+      <div id="admin-status"></div>
+    </div>
+
+    <div class="card admin-card">
+      <h2>✍️ Vložit výsledek</h2>
+
+      <form id="result-form" class="admin-form">
+        <label>Zápas</label>
+        <select id="result-match-select" required>
+          <option value="">Vyber zápas</option>
+        </select>
+
+        <div class="admin-two-cols">
+          <div>
+            <label>Góly domácí</label>
+            <input type="number" id="result-home" min="0" required>
+          </div>
+
+          <div>
+            <label>Góly hosté</label>
+            <input type="number" id="result-away" min="0" required>
+          </div>
+        </div>
+
+        <button type="submit">💾 Uložit výsledek</button>
+      </form>
+
+      <div id="result-status"></div>
+    </div>
+
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <h2>📋 Zápasy v databázi</h2>
+    </div>
+
+    <div class="card">
+      <table id="admin-matches-table">
+        <thead>
+          <tr>
+            <th>Datum</th>
+            <th>Skupina</th>
+            <th>Zápas</th>
+            <th>Výsledek</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+</main>
 
   <script src="admin.js"></script>
 </body>
