@@ -288,11 +288,14 @@ async function submitTip() {
       tip_away: tipAway
     });
 
-  if (error) {
-    console.error(error);
-    status.innerHTML = "❌ Nepodařilo se uložit tip.";
-    return;
-  }
+if (error) {
+  console.error(error);
+
+  status.innerHTML =
+    `❌ ${error.message}`;
+
+  return;
+}
 
   status.innerHTML = "✅ Tip byl úspěšně odeslán!";
 
