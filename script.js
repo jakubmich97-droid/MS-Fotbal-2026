@@ -54,13 +54,16 @@ function prepareMatches(matches, tips) {
       .map(tip => {
         return {
           name: tip.player_name,
-          home: Number(tip.tip_home),
-          away: Number(tip.tip_away)
+          home: tip.tip_home !== null ? Number(tip.tip_home) : null,
+          away: tip.tip_away !== null ? Number(tip.tip_away) : null,
+          predictedTeam: tip.predicted_team || null
         };
       });
 
     return {
       id: match.id,
+      groupName: match.group_name,
+      correctTeam: match.correct_team,
       date: match.match_date,
       home: match.home_team,
       away: match.away_team,
@@ -73,6 +76,9 @@ function prepareMatches(matches, tips) {
   });
 }
 
+function isBonusMatch(match) {
+  return match.groupName === "Bonus";
+}
 function isMatchPlayed(match) {
   return match.resultHome !== "-" && match.resultAway !== "-";
 }
@@ -397,9 +403,22 @@ function createMatchCard(match, played) {
 
         if (played) {
           let points = 0;
-
-          if (tip.correctWinner) points += 1;
-          if (closestTips.includes(tip)) points += 1;
+          
+          if (isBonusMatch(match)) {
+          
+            if (
+              match.correctTeam &&
+              tip.predictedTeam === match.correctTeam
+            ) {
+              points = 3;
+            }
+          
+          } else {
+          
+            if (tip.correctWinner) points += 1;
+            if (closestTips.includes(tip)) points += 1;
+          
+          }
 
           if (points > 0) {
             badge = `
@@ -413,7 +432,13 @@ function createMatchCard(match, played) {
         return `
           <tr>
             <td>${tip.name}</td>
-            <td>${tip.home}:${tip.away}</td>
+            <td>
+              ${
+                isBonusMatch(match)
+                  ? (tip.predictedTeam || "-")
+                  : `${tip.home}:${tip.away}`
+              }
+            </td>
             <td>${badge}</td>
           </tr>
         `;
