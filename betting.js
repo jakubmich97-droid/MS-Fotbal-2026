@@ -206,13 +206,11 @@ function getOdds(homeRank, awayRank) {
 }
 
 function renderBettingMatches(playerName) {
-  const container =
-    document.getElementById("betting-matches");
+  const container = document.getElementById("betting-matches");
 
   const availableMatches = allMatches.filter(match => {
     if (isBonusMatch(match)) return false;
     if (isMatchPlayed(match)) return false;
-
     return true;
   });
 
@@ -232,6 +230,7 @@ function renderBettingMatches(playerName) {
     const awayRank = getRanking(match.away_team);
 
     if (!homeRank || !awayRank) {
+      console.warn("Chybí ranking:", match.home_team, homeRank, match.away_team, awayRank);
       return;
     }
 
@@ -256,11 +255,7 @@ function renderBettingMatches(playerName) {
 
           <div class="match-scoreline">
             <div class="team-side">
-              <img
-                src="./images/flags/${match.home_flag}.webp"
-                class="flag"
-                alt="${match.home_team}"
-              >
+              <img src="./images/flags/${match.home_flag}.webp" class="flag" alt="${match.home_team}">
               <span class="team-name">${match.home_team}</span>
             </div>
 
@@ -269,11 +264,7 @@ function renderBettingMatches(playerName) {
             </div>
 
             <div class="team-side">
-              <img
-                src="./images/flags/${match.away_flag}.webp"
-                class="flag"
-                alt="${match.away_team}"
-              >
+              <img src="./images/flags/${match.away_flag}.webp" class="flag" alt="${match.away_team}">
               <span class="team-name">${match.away_team}</span>
             </div>
           </div>
@@ -281,56 +272,35 @@ function renderBettingMatches(playerName) {
       </div>
 
       <div class="betting-options">
-        <button
-          type="button"
-          class="bet-option"
-          data-match-id="${match.id}"
-          data-result="home"
-          data-odds="${odds.home}"
-          ${alreadyBet ? "disabled" : ""}
-        >
+        <button type="button" class="bet-option" data-match-id="${match.id}" data-result="home" data-odds="${odds.home}" ${alreadyBet ? "disabled" : ""}>
           1 · ${match.home_team}<br>
           <strong>${odds.home.toFixed(2)}</strong>
         </button>
 
-        <button
-          type="button"
-          class="bet-option"
-          data-match-id="${match.id}"
-          data-result="draw"
-          data-odds="${odds.draw}"
-          ${alreadyBet ? "disabled" : ""}
-        >
+        <button type="button" class="bet-option" data-match-id="${match.id}" data-result="draw" data-odds="${odds.draw}" ${alreadyBet ? "disabled" : ""}>
           X · Remíza<br>
           <strong>${odds.draw.toFixed(2)}</strong>
         </button>
 
-        <button
-          type="button"
-          class="bet-option"
-          data-match-id="${match.id}"
-          data-result="away"
-          data-odds="${odds.away}"
-          ${alreadyBet ? "disabled" : ""}
-        >
+        <button type="button" class="bet-option" data-match-id="${match.id}" data-result="away" data-odds="${odds.away}" ${alreadyBet ? "disabled" : ""}>
           2 · ${match.away_team}<br>
           <strong>${odds.away.toFixed(2)}</strong>
         </button>
       </div>
 
-      <div class="betting-stake-row">
-        <input
-          type="number"
-          class="stake-input"
-          data-match-id="${match.id}"
-          min="100"
-          step="100"
-          placeholder="Vklad Kč"
-          ${alreadyBet ? "disabled" : ""}
-        >
+      <div class="bet-summary">
+        <input type="number" class="stake-input" data-match-id="${match.id}" min="100" step="100" placeholder="Vklad Kč" ${alreadyBet ? "disabled" : ""}>
+
+        <div class="potential-win" data-match-id="${match.id}">
+          Možná výhra: <strong>0 Kč</strong>
+        </div>
+
+        <button type="button" class="place-bet-btn" data-match-id="${match.id}" ${alreadyBet ? "disabled" : ""}>
+          💰 Vsadit
+        </button>
 
         <span class="submit-note">
-          ${alreadyBet ? "Na tento zápas už máš vsazeno." : "Min. vklad 100 Kč"}
+          ${alreadyBet ? "Na tento zápas už máš vsazeno." : "Nejdřív vyber kurz, potom zadej vklad."}
         </span>
       </div>
     `;
@@ -343,10 +313,40 @@ function renderBettingMatches(playerName) {
 
 function setupBetButtons(playerName) {
   document.querySelectorAll(".bet-option").forEach(button => {
+    button.addEventListener("click", () => {
+      const matchId = button.getAttribute("data-match-id");
+
+      document
+        .querySelectorAll(`.bet-option[data-match-id="${matchId}"]`)
+        .forEach(item => item.classList.remove("selected"));
+
+      button.classList.add("selected");
+      updatePotentialWin(matchId);
+    });
+  });
+
+  document.querySelectorAll(".stake-input").forEach(input => {
+    input.addEventListener("input", () => {
+      const matchId = input.getAttribute("data-match-id");
+      updatePotentialWin(matchId);
+    });
+  });
+
+  document.querySelectorAll(".place-bet-btn").forEach(button => {
     button.addEventListener("click", async () => {
-      const matchId = button.dataset.matchId;
-      const selectedResult = button.dataset.result;
-      const odds = Number(button.dataset.odds);
+      const matchId = button.getAttribute("data-match-id");
+
+      const selectedButton = document.querySelector(
+        `.bet-option.selected[data-match-id="${matchId}"]`
+      );
+
+      if (!selectedButton) {
+        alert("Nejdřív vyber kurz.");
+        return;
+      }
+
+      const selectedResult = selectedButton.getAttribute("data-result");
+      const odds = Number(selectedButton.getAttribute("data-odds"));
 
       const stakeInput = document.querySelector(
         `.stake-input[data-match-id="${matchId}"]`
@@ -375,7 +375,39 @@ function setupBetButtons(playerName) {
   });
 }
 
+function updatePotentialWin(matchId) {
+  const selectedButton = document.querySelector(
+    `.bet-option.selected[data-match-id="${matchId}"]`
+  );
+
+  const stakeInput = document.querySelector(
+    `.stake-input[data-match-id="${matchId}"]`
+  );
+
+  const output = document.querySelector(
+    `.potential-win[data-match-id="${matchId}"] strong`
+  );
+
+  if (!output) return;
+
+  if (!selectedButton || !stakeInput || !stakeInput.value) {
+    output.textContent = "0 Kč";
+    return;
+  }
+
+  const odds = Number(selectedButton.getAttribute("data-odds"));
+  const stake = Number(stakeInput.value);
+  const win = stake * odds;
+
+  output.textContent = `${formatMoney(Math.round(win))} Kč`;
+}
+
 async function placeBet(playerName, matchId, selectedResult, odds, stake) {
+  if (!matchId) {
+    alert("Chybí ID zápasu.");
+    return;
+  }
+
   const { error } = await supabaseClient
     .from("bets")
     .insert({
