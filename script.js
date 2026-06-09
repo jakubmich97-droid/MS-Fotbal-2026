@@ -891,3 +891,8 @@ function animateNumber(element, targetValue, duration = 700) {
 
   requestAnimationFrame(update);
 }
+if (isBonusMatch(match)) {
+  if (tip.predicted_team === match.correct_team) {
+    earnedPoints = 3;
+  }
+}
