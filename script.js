@@ -385,7 +385,71 @@ function renderMatchesByDate(matches, container, played) {
     container.appendChild(dayWrapper);
   });
 }
+function getBonusEmoji(match) {
+  if (match.home === "Mistr světa") {
+    return "🏆";
+  }
 
+  if (match.home === "Finalista") {
+    return "🥈";
+  }
+
+  if (match.home === "Třetí místo") {
+    return "🥉";
+  }
+
+  return "⚽";
+}
+
+function renderTeamSide(match, side) {
+  if (isBonusMatch(match)) {
+    if (side === "home") {
+      return `
+        <div class="team-side">
+          <span class="bonus-emoji">
+            ${getBonusEmoji(match)}
+          </span>
+
+          <span class="team-name">
+            ${match.home}
+          </span>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="team-side">
+        <span class="bonus-emoji">
+          ⚽
+        </span>
+
+        <span class="team-name">
+          Výběr týmu
+        </span>
+      </div>
+    `;
+  }
+
+  const teamName =
+    side === "home" ? match.home : match.away;
+
+  const flag =
+    side === "home" ? match.homeFlag : match.awayFlag;
+
+  return `
+    <div class="team-side">
+      <img
+        src="./images/flags/${flag}.webp"
+        class="flag"
+        alt="${teamName}"
+      >
+
+      <span class="team-name">
+        ${teamName}
+      </span>
+    </div>
+  `;
+}
 function createMatchCard(match, played) {
   const closestTips =
     played ? getClosestTipsForMatch(match) : [];
@@ -464,33 +528,13 @@ function createMatchCard(match, played) {
         </div>
 
         <div class="match-scoreline">
-          <div class="team-side">
-            <img
-              src="./images/flags/${match.homeFlag}.webp"
-              class="flag"
-              alt="${match.home}"
-            >
-
-            <span class="team-name">
-              ${match.home}
-            </span>
-          </div>
-
-          <div class="score-pill">
-            ${resultText}
-          </div>
-
-          <div class="team-side">
-            <img
-              src="./images/flags/${match.awayFlag}.webp"
-              class="flag"
-              alt="${match.away}"
-            >
-
-            <span class="team-name">
-              ${match.away}
-            </span>
-          </div>
+        ${renderTeamSide(match, "home")}
+        
+        <div class="score-pill">
+          ${resultText}
+        </div>
+        
+        ${renderTeamSide(match, "away")}
         </div>
       </div>
     </div>
