@@ -1900,3 +1900,10 @@ footer {
     background: rgba(255, 255, 255, 0.11);
   }
 }
+.bonus-emoji {
+  font-size: 32px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
