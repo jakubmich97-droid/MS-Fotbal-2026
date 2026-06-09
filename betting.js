@@ -151,10 +151,29 @@ function getBetStatus(bet) {
   });
 
   if (!match || !isMatchPlayed(match)) {
-    return "otevřená";
+    return {
+      label: "otevřená",
+      className: "badge badge-zero",
+      profit: 0
+    };
   }
 
-  return isBetWon(bet) ? "výhra" : "prohra";
+  if (isBetWon(bet)) {
+    const profit =
+      Number(bet.potential_win) - Number(bet.stake);
+
+    return {
+      label: `výhra +${formatMoney(profit)} Kč`,
+      className: "badge badge-exact",
+      profit
+    };
+  }
+
+  return {
+    label: `prohra -${formatMoney(bet.stake)} Kč`,
+    className: "badge badge-close",
+    profit: -Number(bet.stake)
+  };
 }
 
 function getMatchResult(match) {
