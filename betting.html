@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Sázkový simulátor · MS Fotbal 2026</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <p class="eyebrow">💰 Sázkový simulátor</p>
+      <h1>MS Fotbal 2026</h1>
+      <p class="subtitle">Každý tipér má budget 5 000 Kč. Kdo ho rozmnoží nejlépe?</p>
+
+      <nav class="top-nav">
+        <a href="./index.html" class="nav-link">⚽ Tipovačka</a>
+        <a href="./submit.html" class="nav-link">📝 Odeslat tip</a>
+        <a href="./betting.html" class="nav-link active">💰 Sázky</a>
+        <a href="./admin.html" class="nav-link">🔐 Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="stats-panel">
+      <div class="stats-grid">
+        <div class="stat-card stats-combined">
+          <div>
+            <span class="stat-label">Startovní budget</span>
+            <strong>5 000 Kč</strong>
+          </div>
+
+          <div>
+            <span class="stat-label">Otevřené sázky</span>
+            <strong id="open-bets-count">0</strong>
+          </div>
+
+          <div>
+            <span class="stat-label">Nejlepší sázkař</span>
+            <strong id="best-bettor">-</strong>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-label">Tvůj aktuální zůstatek</span>
+          <strong id="current-budget">-</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>👤 Vyber sázkaře</h2>
+        <p>Po výběru hráče uvidíš jeho zůstatek a dostupné zápasy k sázení.</p>
+      </div>
+
+      <div class="card">
+        <label for="bettor-name" class="select-label">Sázkař</label>
+        <select id="bettor-name" class="player-select" required>
+          <option value="">Vyber hráče</option>
+          <option value="Kuba">Kuba</option>
+          <option value="Dejv">Dejv</option>
+          <option value="Jiřoch">Jiřoch</option>
+          <option value="Luba">Luba</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>🏆 Pořadí sázkařů</h2>
+        <p>Pořadí podle aktuálního zůstatku v simulátoru.</p>
+      </div>
+
+      <div class="card">
+        <table id="betting-leaderboard">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Hráč</th>
+              <th>Zůstatek</th>
+              <th>Vsazeno</th>
+              <th>Výhry</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="5">Zatím nejsou žádné sázky.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>🎟️ Dostupné sázky</h2>
+        <p>Kurzy jsou zjednodušené podle FIFA rankingu týmů.</p>
+      </div>
+
+      <div id="betting-matches" class="matches-list">
+        <div class="card rules">
+          Vyber sázkaře a načtou se dostupné zápasy.
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>📋 Moje sázky</h2>
+        <p>Přehled sázek vybraného hráče.</p>
+      </div>
+
+      <div class="card">
+        <table id="my-bets-table">
+          <thead>
+            <tr>
+              <th>Zápas</th>
+              <th>Tip</th>
+              <th>Kurz</th>
+              <th>Vklad</th>
+              <th>Stav</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="5">Vyber sázkaře.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>📖 Pravidla sázkového simulátoru</h2>
+      </div>
+
+      <div class="card rules">
+        <p>💰 Každý hráč začíná s budgetem <strong>5 000 Kč</strong>.</p>
+        <p>⚽ Sázet lze na výsledek zápasu: <strong>1 / X / 2</strong>.</p>
+        <p>📊 Kurzy jsou orientační a vychází pouze z FIFA rankingu.</p>
+        <p>✅ Vyhraná sázka vrací <strong>vklad × kurz</strong>.</p>
+        <p>❌ Prohraná sázka odečítá celý vklad.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>⚽ MS Fotbal 2026 · sázkový simulátor pro zábavu</p>
+  </footer>
+
+  <script src="betting.js"></script>
+</body>
+</html>
