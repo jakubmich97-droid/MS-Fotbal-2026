@@ -22,6 +22,7 @@ async function initBettingPage() {
 
   renderLeaderboard();
   renderGlobalStats();
+  renderCurrentPlayer();
 }
 
 initBettingPage();
