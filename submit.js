@@ -19,7 +19,7 @@ const teams = [
   { name: "Kapverdy", flag: "cv" },
   { name: "Kolumbie", flag: "co" },
   { name: "Chorvatsko", flag: "hr" },
-  { name: "Kurakao", flag: "cw" },
+  { name: "Curacao", flag: "cw" },
   { name: "DR Kongo", flag: "cd" },
   { name: "Ekvádor", flag: "ec" },
   { name: "Egypt", flag: "eg" },
