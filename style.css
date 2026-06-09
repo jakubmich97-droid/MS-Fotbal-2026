@@ -1982,3 +1982,20 @@ footer {
     width: 100%;
   }
 }
+.place-bet-btn {
+  padding: 14px 22px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(
+    90deg,
+    #22c55e,
+    #facc15
+  );
+  color: #052e16;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.place-bet-btn:hover {
+  transform: translateY(-2px);
+}
