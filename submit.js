@@ -313,33 +313,57 @@ function renderOtherTips() {
           </div>
 
           <div class="match-scoreline">
-            <div class="team-side">
-              <img
-                src="./images/flags/${homeFlag}.webp"
-                class="flag"
-                alt="${match.home_team}"
-              >
-
-              <span class="team-name">
-                ${match.home_team}
-              </span>
-            </div>
+          const homeDisplay = isBonusMatch(match)
+            ? `
+              <div class="team-side">
+                <span class="team-name">
+                  ${
+                    match.home_team === "Mistr světa"
+                      ? "🏆 Mistr světa"
+                      : match.home_team === "Finalista"
+                      ? "🥈 Finalista"
+                      : "🥉 Třetí místo"
+                  }
+                </span>
+              </div>
+            `
+            : `
+              <div class="team-side">
+                <img
+                  src="./images/flags/${match.home_flag}.webp"
+                  class="flag"
+                  alt="${match.home_team}"
+                >
+                <span class="team-name">
+                  ${match.home_team}
+                </span>
+              </div>
+            `;
 
             <div class="score-pill">
               ${scoreline}
             </div>
 
-            <div class="team-side">
-              <img
-                src="./images/flags/${awayFlag}.webp"
-                class="flag"
-                alt="${match.away_team}"
-              >
-
-              <span class="team-name">
-                ${match.away_team}
-              </span>
-            </div>
+            const awayDisplay = isBonusMatch(match)
+              ? `
+                <div class="team-side">
+                  <span class="team-name">
+                    ⚽ Výběr týmu
+                  </span>
+                </div>
+              `
+              : `
+                <div class="team-side">
+                  <img
+                    src="./images/flags/${match.away_flag}.webp"
+                    class="flag"
+                    alt="${match.away_team}"
+                  >
+                  <span class="team-name">
+                    ${match.away_team}
+                  </span>
+                </div>
+              `;
           </div>
         </div>
       </div>
