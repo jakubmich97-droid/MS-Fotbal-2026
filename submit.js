@@ -316,3 +316,6 @@ function formatDate(dateString) {
     year: "numeric"
   });
 }
+function isBonusMatch(match) {
+  return match.group_name === "Bonus";
+}
