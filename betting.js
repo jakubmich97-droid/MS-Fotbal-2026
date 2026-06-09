@@ -413,6 +413,7 @@ async function placeBet(playerName, matchId, selectedResult, odds, stake) {
     .insert({
       player_name: playerName,
       match_id: matchId,
+      bet_type: "match_result",
       selected_result: selectedResult,
       odds: odds,
       stake: stake
