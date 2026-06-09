@@ -412,7 +412,7 @@ async function placeBet(playerName, matchId, selectedResult, odds, stake) {
     .from("bets")
     .insert({
       player_name: playerName,
-      match_id: Number(matchId),
+      match_id: matchId,
       selected_result: selectedResult,
       odds: odds,
       stake: stake
