@@ -113,10 +113,14 @@ function getPlayerBudget(playerName) {
   let budget = START_BUDGET;
 
   playerBets.forEach(bet => {
+    const match = allMatches.find(item => {
+      return String(item.id) === String(bet.match_id);
+    });
+
     budget -= Number(bet.stake);
 
-    if (isBetWon(bet)) {
-      budget += Number(bet.stake) * Number(bet.odds);
+    if (match && isMatchPlayed(match) && isBetWon(bet)) {
+      budget += Number(bet.potential_win);
     }
   });
 
@@ -502,7 +506,11 @@ function renderMyBets(playerName) {
         <td>${selectedText}</td>
         <td>${Number(bet.odds).toFixed(2)}</td>
         <td>${formatMoney(bet.stake)} Kč</td>
-        <td>${getBetStatus(bet)}</td>
+        <td>
+          <span class="${getBetStatus(bet).className}">
+            ${getBetStatus(bet).label}
+          </span>
+        </td>
       </tr>
     `;
   }).join("");
