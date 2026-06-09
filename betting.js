@@ -416,7 +416,8 @@ async function placeBet(playerName, matchId, selectedResult, odds, stake) {
       bet_type: "match_result",
       selected_result: selectedResult,
       odds: odds,
-      stake: stake
+      stake: stake,
+      potential_win: stake * odds
     });
 
   if (error) {
