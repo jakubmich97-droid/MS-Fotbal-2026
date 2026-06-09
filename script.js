@@ -454,8 +454,11 @@ function createMatchCard(match, played) {
   const closestTips =
     played ? getClosestTipsForMatch(match) : [];
 
-  const resultText =
-    played ? `${match.resultHome}:${match.resultAway}` : "čeká se";
+const resultText = isBonusMatch(match)
+  ? "výběr týmu"
+  : played
+  ? `${match.resultHome}:${match.resultAway}`
+  : "čeká se";
 
   const tipsHtml = match.tips.length > 0
     ? match.tips.map(tip => {
@@ -959,9 +962,4 @@ function animateNumber(element, targetValue, duration = 700) {
   }
 
   requestAnimationFrame(update);
-}
-if (isBonusMatch(match)) {
-  if (tip.predicted_team === match.correct_team) {
-    earnedPoints = 3;
-  }
 }
