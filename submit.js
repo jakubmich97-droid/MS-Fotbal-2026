@@ -296,13 +296,53 @@ function renderOtherTips() {
     ? "výběr týmu"
     : "čeká se";
 
-  const homeFlag = isBonusMatch(match)
-    ? "worldcup"
-    : match.home_flag;
+  const homeDisplay = isBonusMatch(match)
+    ? `
+      <div class="team-side">
+        <span class="team-name">
+          ${
+            match.home_team === "Mistr světa"
+              ? "🏆 Mistr světa"
+              : match.home_team === "Finalista"
+              ? "🥈 Finalista"
+              : "🥉 Třetí místo"
+          }
+        </span>
+      </div>
+    `
+    : `
+      <div class="team-side">
+        <img
+          src="./images/flags/${match.home_flag}.webp"
+          class="flag"
+          alt="${match.home_team}"
+        >
+        <span class="team-name">
+          ${match.home_team}
+        </span>
+      </div>
+    `;
 
-  const awayFlag = isBonusMatch(match)
-    ? "football"
-    : match.away_flag;
+  const awayDisplay = isBonusMatch(match)
+    ? `
+      <div class="team-side">
+        <span class="team-name">
+          ⚽ Výběr týmu
+        </span>
+      </div>
+    `
+    : `
+      <div class="team-side">
+        <img
+          src="./images/flags/${match.away_flag}.webp"
+          class="flag"
+          alt="${match.away_team}"
+        >
+        <span class="team-name">
+          ${match.away_team}
+        </span>
+      </div>
+    `;
 
   container.innerHTML = `
     <div class="match-card submit-preview">
@@ -313,57 +353,13 @@ function renderOtherTips() {
           </div>
 
           <div class="match-scoreline">
-          const homeDisplay = isBonusMatch(match)
-            ? `
-              <div class="team-side">
-                <span class="team-name">
-                  ${
-                    match.home_team === "Mistr světa"
-                      ? "🏆 Mistr světa"
-                      : match.home_team === "Finalista"
-                      ? "🥈 Finalista"
-                      : "🥉 Třetí místo"
-                  }
-                </span>
-              </div>
-            `
-            : `
-              <div class="team-side">
-                <img
-                  src="./images/flags/${match.home_flag}.webp"
-                  class="flag"
-                  alt="${match.home_team}"
-                >
-                <span class="team-name">
-                  ${match.home_team}
-                </span>
-              </div>
-            `;
+            ${homeDisplay}
 
             <div class="score-pill">
               ${scoreline}
             </div>
 
-            const awayDisplay = isBonusMatch(match)
-              ? `
-                <div class="team-side">
-                  <span class="team-name">
-                    ⚽ Výběr týmu
-                  </span>
-                </div>
-              `
-              : `
-                <div class="team-side">
-                  <img
-                    src="./images/flags/${match.away_flag}.webp"
-                    class="flag"
-                    alt="${match.away_team}"
-                  >
-                  <span class="team-name">
-                    ${match.away_team}
-                  </span>
-                </div>
-              `;
+            ${awayDisplay}
           </div>
         </div>
       </div>
