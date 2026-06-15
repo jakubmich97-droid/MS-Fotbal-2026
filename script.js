@@ -131,19 +131,15 @@ function startApp(matches) {
       leaderboard[tip.name].totalDistance += tip.distance;
 
       let earnedPoints = 0;
-
-      if (tip.correctWinner) {
-        earnedPoints += 1;
-        leaderboard[tip.name].correctWinners += 1;
-      }
-
-      if (closestTips.includes(tip)) {
-        earnedPoints += 1;
-      }
-
+      
       if (tip.isExact) {
+        earnedPoints = 2;
         leaderboard[tip.name].exact += 1;
         totalExact += 1;
+        leaderboard[tip.name].correctWinners += 1;
+      } else if (tip.correctWinner) {
+        earnedPoints = 1;
+        leaderboard[tip.name].correctWinners += 1;
       }
 
       leaderboard[tip.name].points += earnedPoints;
@@ -471,21 +467,24 @@ const resultText = isBonusMatch(match)
         if (played) {
           let points = 0;
           
-          if (isBonusMatch(match)) {
-          
-            if (
-              match.correctTeam &&
-              tip.predictedTeam === match.correctTeam
-            ) {
-              points = 3;
-            }
-          
-          } else {
-          
-            if (tip.correctWinner) points += 1;
-            if (closestTips.includes(tip)) points += 1;
-          
+        if (isBonusMatch(match)) {
+        
+          if (
+            match.correctTeam &&
+            tip.predictedTeam === match.correctTeam
+          ) {
+            points = 3;
           }
+        
+        } else {
+        
+          if (tip.isExact) {
+            points = 2;
+          } else if (tip.correctWinner) {
+            points = 1;
+          }
+        
+        }
 
           if (points > 0) {
             badge = `
@@ -657,12 +656,24 @@ function renderPointsChart(matches) {
       const closestTips = getClosestTipsForMatch(match);
 
       match.tips.forEach(tip => {
-        let points = 0;
-
-        if (tip.correctWinner) points += 1;
-        if (closestTips.includes(tip)) points += 1;
-
-        pointsByPlayer[tip.name] += points;
+      let points = 0;
+      
+      if (isBonusMatch(match)) {
+        if (
+          match.correctTeam &&
+          tip.predictedTeam === match.correctTeam
+        ) {
+          points = 3;
+        }
+      } else {
+        if (tip.isExact) {
+          points = 2;
+        } else if (tip.correctWinner) {
+          points = 1;
+        }
+      }
+      
+      pointsByPlayer[tip.name] += points;
       });
     });
 
