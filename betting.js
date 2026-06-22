@@ -588,6 +588,7 @@ function renderLeaderboard() {
     return {
       name: player,
       budget: getPlayerBudget(player),
+      debt: getPlayerDebt(player),
       totalStake,
       wins
     };
@@ -599,6 +600,7 @@ function renderLeaderboard() {
         <td>${index + 1}</td>
         <td>${player.name}</td>
         <td>${formatMoney(player.budget)} Kč</td>
+        <td>${formatMoney(player.debt)} Kč</td>
         <td>${formatMoney(player.totalStake)} Kč</td>
         <td>${player.wins}</td>
       </tr>
