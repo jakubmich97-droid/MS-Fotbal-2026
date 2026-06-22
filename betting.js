@@ -354,7 +354,9 @@ function setupBetButtons(playerName) {
         .forEach(item => item.classList.remove("selected"));
 
       button.classList.add("selected");
+
       updatePotentialWin(matchId);
+      updateLoanPotentialWin(matchId);
     });
   });
 
@@ -362,6 +364,13 @@ function setupBetButtons(playerName) {
     input.addEventListener("input", () => {
       const matchId = input.getAttribute("data-match-id");
       updatePotentialWin(matchId);
+    });
+  });
+
+  document.querySelectorAll(".loan-input").forEach(input => {
+    input.addEventListener("input", () => {
+      const matchId = input.getAttribute("data-match-id");
+      updateLoanPotentialWin(matchId);
     });
   });
 
@@ -373,43 +382,70 @@ function setupBetButtons(playerName) {
         `.bet-option.selected[data-match-id="${matchId}"]`
       );
 
-      document.querySelectorAll(".loan-input").forEach(input => {
-  input.addEventListener("input", () => {
-    const matchId = input.getAttribute("data-match-id");
-    updateLoanPotentialWin(matchId);
+      if (!selectedButton) {
+        alert("Nejdřív vyber kurz.");
+        return;
+      }
+
+      const selectedResult = selectedButton.getAttribute("data-result");
+      const odds = Number(selectedButton.getAttribute("data-odds"));
+
+      const stakeInput = document.querySelector(
+        `.stake-input[data-match-id="${matchId}"]`
+      );
+
+      const stake = Number(stakeInput.value);
+      const budget = getPlayerBudget(playerName);
+
+      if (!stake || stake <= 0) {
+        alert("Zadej vklad.");
+        return;
+      }
+
+      if (stake < 100) {
+        alert("Minimální vklad je 100 Kč.");
+        return;
+      }
+
+      if (stake > budget) {
+        alert("Nemáš dostatečný zůstatek.");
+        return;
+      }
+
+      await placeBet(playerName, matchId, selectedResult, odds, stake);
+    });
   });
-});
 
-document.querySelectorAll(".place-loan-bet-btn").forEach(button => {
-  button.addEventListener("click", async () => {
-    const matchId = button.getAttribute("data-match-id");
+  document.querySelectorAll(".place-loan-bet-btn").forEach(button => {
+    button.addEventListener("click", async () => {
+      const matchId = button.getAttribute("data-match-id");
 
-    const selectedButton = document.querySelector(
-      `.bet-option.selected[data-match-id="${matchId}"]`
-    );
+      const selectedButton = document.querySelector(
+        `.bet-option.selected[data-match-id="${matchId}"]`
+      );
 
-    if (!selectedButton) {
-      alert("Nejdřív vyber kurz.");
-      return;
-    }
+      if (!selectedButton) {
+        alert("Nejdřív vyber kurz.");
+        return;
+      }
 
-    const selectedResult = selectedButton.getAttribute("data-result");
-    const odds = Number(selectedButton.getAttribute("data-odds"));
+      const selectedResult = selectedButton.getAttribute("data-result");
+      const odds = Number(selectedButton.getAttribute("data-odds"));
 
-    const loanInput = document.querySelector(
-      `.loan-input[data-match-id="${matchId}"]`
-    );
+      const loanInput = document.querySelector(
+        `.loan-input[data-match-id="${matchId}"]`
+      );
 
-    const loanAmount = Number(loanInput.value);
+      const loanAmount = Number(loanInput.value);
 
-    if (!loanAmount || loanAmount < 100) {
-      alert("Zadej půjčku minimálně 100 Kč.");
-      return;
-    }
+      if (!loanAmount || loanAmount < 100) {
+        alert("Zadej půjčku minimálně 100 Kč.");
+        return;
+      }
 
-    await placeLoanBet(playerName, matchId, selectedResult, odds, loanAmount);
+      await placeLoanBet(playerName, matchId, selectedResult, odds, loanAmount);
+    });
   });
-});
 }
 
 function updatePotentialWin(matchId) {
