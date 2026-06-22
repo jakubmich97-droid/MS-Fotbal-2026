@@ -313,17 +313,27 @@ function renderBettingMatches(playerName) {
 
       <div class="bet-summary">
         <input type="number" class="stake-input" data-match-id="${match.id}" min="100" step="100" placeholder="Vklad Kč" ${alreadyBet ? "disabled" : ""}>
-
+      
         <div class="potential-win" data-match-id="${match.id}">
           Možná výhra: <strong>0 Kč</strong>
         </div>
-
+      
         <button type="button" class="place-bet-btn" data-match-id="${match.id}" ${alreadyBet ? "disabled" : ""}>
           💰 Vsadit
         </button>
-
+      
+        <input type="number" class="loan-input" data-match-id="${match.id}" min="100" step="100" placeholder="Půjčka Kč" ${alreadyBet ? "disabled" : ""}>
+      
+        <div class="loan-potential-win" data-match-id="${match.id}">
+          Výhra po splacení: <strong>0 Kč</strong>
+        </div>
+      
+        <button type="button" class="place-loan-bet-btn" data-match-id="${match.id}" ${alreadyBet ? "disabled" : ""}>
+          🏦 Vsadit s půjčkou
+        </button>
+      
         <span class="submit-note">
-          ${alreadyBet ? "Na tento zápas už máš vsazeno." : "Nejdřív vyber kurz, potom zadej vklad."}
+          ${alreadyBet ? "Na tento zápas už máš vsazeno." : "Půjčka má úrok 10 % a splácí se z případné výhry."}
         </span>
       </div>
     `;
@@ -363,39 +373,43 @@ function setupBetButtons(playerName) {
         `.bet-option.selected[data-match-id="${matchId}"]`
       );
 
-      if (!selectedButton) {
-        alert("Nejdřív vyber kurz.");
-        return;
-      }
-
-      const selectedResult = selectedButton.getAttribute("data-result");
-      const odds = Number(selectedButton.getAttribute("data-odds"));
-
-      const stakeInput = document.querySelector(
-        `.stake-input[data-match-id="${matchId}"]`
-      );
-
-      const stake = Number(stakeInput.value);
-      const budget = getPlayerBudget(playerName);
-
-      if (!stake || stake <= 0) {
-        alert("Zadej vklad.");
-        return;
-      }
-
-      if (stake < 100) {
-        alert("Minimální vklad je 100 Kč.");
-        return;
-      }
-
-      if (stake > budget) {
-        alert("Nemáš dostatečný zůstatek.");
-        return;
-      }
-
-      await placeBet(playerName, matchId, selectedResult, odds, stake);
-    });
+      document.querySelectorAll(".loan-input").forEach(input => {
+  input.addEventListener("input", () => {
+    const matchId = input.getAttribute("data-match-id");
+    updateLoanPotentialWin(matchId);
   });
+});
+
+document.querySelectorAll(".place-loan-bet-btn").forEach(button => {
+  button.addEventListener("click", async () => {
+    const matchId = button.getAttribute("data-match-id");
+
+    const selectedButton = document.querySelector(
+      `.bet-option.selected[data-match-id="${matchId}"]`
+    );
+
+    if (!selectedButton) {
+      alert("Nejdřív vyber kurz.");
+      return;
+    }
+
+    const selectedResult = selectedButton.getAttribute("data-result");
+    const odds = Number(selectedButton.getAttribute("data-odds"));
+
+    const loanInput = document.querySelector(
+      `.loan-input[data-match-id="${matchId}"]`
+    );
+
+    const loanAmount = Number(loanInput.value);
+
+    if (!loanAmount || loanAmount < 100) {
+      alert("Zadej půjčku minimálně 100 Kč.");
+      return;
+    }
+
+    await placeLoanBet(playerName, matchId, selectedResult, odds, loanAmount);
+  });
+});
 }
 
 function updatePotentialWin(matchId) {
@@ -594,4 +608,61 @@ function formatDate(dateString) {
     month: "long",
     year: "numeric"
   });
+}
+function updateLoanPotentialWin(matchId) {
+  const selectedButton = document.querySelector(
+    `.bet-option.selected[data-match-id="${matchId}"]`
+  );
+
+  const loanInput = document.querySelector(
+    `.loan-input[data-match-id="${matchId}"]`
+  );
+
+  const output = document.querySelector(
+    `.loan-potential-win[data-match-id="${matchId}"] strong`
+  );
+
+  if (!output) return;
+
+  if (!selectedButton || !loanInput || !loanInput.value) {
+    output.textContent = "0 Kč";
+    return;
+  }
+
+  const odds = Number(selectedButton.getAttribute("data-odds"));
+  const loanAmount = Number(loanInput.value);
+  const repayment = loanAmount * 1.1;
+  const winAfterRepayment = loanAmount * odds - repayment;
+
+  output.textContent = `${formatMoney(Math.round(winAfterRepayment))} Kč`;
+}
+
+async function placeLoanBet(playerName, matchId, selectedResult, odds, loanAmount) {
+  const repayment = loanAmount * 1.1;
+
+  const { error } = await supabaseClient
+    .from("bets")
+    .insert({
+      player_name: playerName,
+      match_id: matchId,
+      bet_type: "loan_match_result",
+      selected_result: selectedResult,
+      odds: odds,
+      stake: loanAmount,
+      potential_win: loanAmount * odds,
+      loan_amount: loanAmount,
+      loan_repayment: repayment
+    });
+
+  if (error) {
+    console.error(error);
+    alert(error.message);
+    return;
+  }
+
+  await loadBets();
+
+  renderCurrentPlayer();
+  renderLeaderboard();
+  renderGlobalStats();
 }
