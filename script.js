@@ -586,11 +586,15 @@ function renderStats(matches, players, totalExact) {
   if (!leaderElement) return;
 
   if (players.length > 0) {
-    const topPoints = players[0][1].points;
+const topPoints = players[0][1].points;
+const topExact = players[0][1].exact;
 
-    const leaders = players
-      .filter(player => player[1].points === topPoints)
-      .map(player => player[0]);
+const leaders = players
+  .filter(player =>
+    player[1].points === topPoints &&
+    player[1].exact === topExact
+  )
+  .map(player => player[0]);
 
     leaderElement.innerHTML = `
       <span class="leader-badge">
