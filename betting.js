@@ -702,3 +702,29 @@ async function placeLoanBet(playerName, matchId, selectedResult, odds, loanAmoun
   renderLeaderboard();
   renderGlobalStats();
 }
+function getPlayerDebt(playerName) {
+  const playerBets = allBets.filter(bet => {
+    return bet.player_name === playerName;
+  });
+
+  let debt = 0;
+
+  playerBets.forEach(bet => {
+    if (!bet.loan_repayment) return;
+
+    const match = allMatches.find(item => {
+      return String(item.id) === String(bet.match_id);
+    });
+
+    if (!match || !isMatchPlayed(match)) {
+      debt += Number(bet.loan_repayment);
+      return;
+    }
+
+    if (!isBetWon(bet)) {
+      debt += Number(bet.loan_repayment);
+    }
+  });
+
+  return Math.round(debt);
+}
