@@ -168,13 +168,17 @@ function startApp(matches) {
     });
   });
 
-  const sortedPlayers = Object.entries(leaderboard).sort((a, b) => {
-    if (b[1].points !== a[1].points) {
-      return b[1].points - a[1].points;
-    }
+const sortedPlayers = Object.entries(leaderboard).sort((a, b) => {
+  if (b[1].points !== a[1].points) {
+    return b[1].points - a[1].points;
+  }
 
-    return getPlayerAccuracy(a) - getPlayerAccuracy(b);
-  });
+  if (b[1].exact !== a[1].exact) {
+    return b[1].exact - a[1].exact;
+  }
+
+  return a[0].localeCompare(b[0], "cs");
+});
 
   renderLeaderboard(sortedPlayers);
   setupPlayerModal(sortedPlayers);
@@ -226,12 +230,12 @@ function getPlayerAccuracy(player) {
 function getPositionText(players, index) {
   const currentPlayer = players[index];
   const currentPoints = currentPlayer[1].points;
-  const currentAccuracy = getPlayerAccuracy(currentPlayer);
+  const currentExact = currentPlayer[1].exact;
 
   const sameRankPlayers = players.filter(player => {
     return (
       player[1].points === currentPoints &&
-      getPlayerAccuracy(player) === currentAccuracy
+      player[1].exact === currentExact
     );
   });
 
@@ -242,7 +246,7 @@ function getPositionText(players, index) {
   const firstIndex = players.findIndex(player => {
     return (
       player[1].points === currentPoints &&
-      getPlayerAccuracy(player) === currentAccuracy
+      player[1].exact === currentExact
     );
   });
 
