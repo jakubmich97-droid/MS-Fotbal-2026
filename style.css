@@ -2124,3 +2124,18 @@ footer {
   font-weight: 900;
   cursor: pointer;
 }
+.group-table .qualified-row {
+  background: rgba(34, 197, 94, 0.16);
+}
+
+.group-table .qualified-row td:first-child {
+  border-left: 4px solid #22c55e;
+}
+
+.group-table .third-place-row {
+  background: rgba(250, 204, 21, 0.13);
+}
+
+.group-table .third-place-row td:first-child {
+  border-left: 4px solid #facc15;
+}
