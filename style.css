@@ -2139,3 +2139,39 @@ footer {
 .group-table .third-place-row td:first-child {
   border-left: 4px solid #facc15;
 }
+.standings-switch,
+.playoff-stage-switch {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 18px 0 28px;
+}
+
+.standings-tab,
+.playoff-stage-btn {
+  padding: 13px 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(250, 204, 21, 0.28);
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.standings-tab:hover,
+.playoff-stage-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(34, 197, 94, 0.22);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.standings-tab.active,
+.playoff-stage-btn.active {
+  background: linear-gradient(135deg, #22c55e, #facc15);
+  color: #052e16;
+  border-color: rgba(250, 204, 21, 0.75);
+  box-shadow: 0 0 22px rgba(250, 204, 21, 0.24);
+}
