@@ -461,6 +461,15 @@ function setupViewSwitch() {
       document
         .getElementById(`${view}-view`)
         .classList.add("active");
+      
+            if (view === "playoff") {
+        document
+          .getElementById("playoff-view")
+          .scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+      }
     });
   });
 }
