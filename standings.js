@@ -309,7 +309,10 @@ function renderGroupRow(team, index) {
 
   return `
     <tr class="${rowClass}">
-      <td>${index + 1}</td>
+      <td>
+      ${index + 1}
+      ${index <= 1 ? " ✅" : index === 2 ? " 🟡" : ""}
+    </td>
       <td>
         <div class="table-team">
           <img
