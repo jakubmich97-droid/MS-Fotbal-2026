@@ -16,6 +16,10 @@ async function initStandingsPage() {
   groupTables = buildAllGroupTables(allMatches);
 
   setupViewSwitch();
+
+  renderGroups();
+  renderThirdPlaceTable();
+  renderQualifiedTeams();
   renderPlayoffStage();
 }
 
@@ -469,21 +473,6 @@ function setupViewSwitch() {
   });
 }
 
-function setupPlayoffStageSwitch() {
-  document.querySelectorAll(".playoff-stage-btn").forEach(button => {
-    button.addEventListener("click", () => {
-      const stage = button.dataset.stage;
-
-      document.querySelectorAll(".playoff-stage-btn").forEach(item => {
-        item.classList.remove("active");
-      });
-
-      button.classList.add("active");
-
-      renderPlayoffStage(stage);
-    });
-  });
-}
 
 function renderPlayoffStage() {
   const container = document.getElementById("playoff-bracket");
@@ -514,95 +503,6 @@ function renderPlayoffStage() {
     ${renderBracketColumn("Semifinále", sf)}
     ${renderBracketColumn("Finále", final)}
   `;
-}
-
-  const pairings = buildPlayoffPairings(qualified, stage);
-
-  container.innerHTML = pairings.map(pair => {
-    return `
-      <div class="playoff-card">
-        <div class="playoff-title">${getStageLabel(stage)}</div>
-
-        <div class="playoff-teams">
-          ${renderPlayoffTeam(pair[0])}
-
-          <div class="playoff-vs">vs</div>
-
-          ${renderPlayoffTeam(pair[1])}
-        </div>
-      </div>
-    `;
-  }).join("");
-}
-
-function buildPlayoffPairings(qualified, stage) {
-  const sorted = [...qualified].sort((a, b) => {
-    if (b.points !== a.points) return b.points - a.points;
-    if (b.goalDiff !== a.goalDiff) return b.goalDiff - a.goalDiff;
-    if (b.goalsFor !== a.goalsFor) return b.goalsFor - a.goalsFor;
-
-    return a.team.localeCompare(b.team, "cs");
-  });
-
-  let stageTeams = sorted;
-
-  if (stage === "r16") {
-    stageTeams = sorted.slice(0, 16);
-  }
-
-  if (stage === "qf") {
-    stageTeams = sorted.slice(0, 8);
-  }
-
-  if (stage === "sf") {
-    stageTeams = sorted.slice(0, 4);
-  }
-
-  if (stage === "final") {
-    stageTeams = sorted.slice(0, 2);
-  }
-
-  const pairings = [];
-
-  for (let i = 0; i < stageTeams.length / 2; i++) {
-    pairings.push([
-      stageTeams[i],
-      stageTeams[stageTeams.length - 1 - i]
-    ]);
-  }
-
-  return pairings;
-}
-
-function renderPlayoffTeam(team) {
-  if (!team) {
-    return `
-      <div class="playoff-team empty">
-        TBD
-      </div>
-    `;
-  }
-
-  return `
-    <div class="playoff-team">
-      <img
-        src="./images/flags/${team.flag}.webp"
-        class="playoff-flag"
-        alt="${team.team}"
-      >
-      <span>${team.team}</span>
-    </div>
-  `;
-}
-
-function getStageLabel(stage) {
-  if (stage === "r32") return "1/16 finále";
-  if (stage === "r16") return "Osmifinále";
-  if (stage === "qf") return "Čtvrtfinále";
-  if (stage === "sf") return "Semifinále";
-  if (stage === "final") return "Finále";
-
-  return "Play-off";
 }
 
 function formatGoalDiff(value) {
