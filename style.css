@@ -2270,11 +2270,10 @@ footer {
 }
 
 .bracket-right {
-  direction: rtl;
-}
-
-.bracket-right * {
-  direction: ltr;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  align-items: center;
 }
 
 .bracket-column {
