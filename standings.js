@@ -530,12 +530,11 @@ function renderPlayoffStage() {
           </div>
         </div>
       </div>
-
       <div class="bracket-side bracket-right">
-        ${renderBracketColumn("1/16 finále", rightR32)}
-        ${renderBracketColumn("Osmifinále", rightR16)}
-        ${renderBracketColumn("Čtvrtfinále", rightQF)}
         ${renderBracketColumn("Semifinále", rightSF)}
+        ${renderBracketColumn("Čtvrtfinále", rightQF)}
+        ${renderBracketColumn("Osmifinále", rightR16)}
+        ${renderBracketColumn("1/16 finále", rightR32)}
       </div>
 
     </div>
