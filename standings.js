@@ -16,12 +16,7 @@ async function initStandingsPage() {
   groupTables = buildAllGroupTables(allMatches);
 
   setupViewSwitch();
-  setupPlayoffStageSwitch();
-
-  renderGroups();
-  renderThirdPlaceTable();
-  renderQualifiedTeams();
-  renderPlayoffStage("r32");
+  renderPlayoffStage();
 }
 
 initStandingsPage();
@@ -490,9 +485,8 @@ function setupPlayoffStageSwitch() {
   });
 }
 
-function renderPlayoffStage(stage) {
+function renderPlayoffStage() {
   const container = document.getElementById("playoff-bracket");
-
   if (!container) return;
 
   const qualified = getQualifiedTeams();
@@ -506,6 +500,21 @@ function renderPlayoffStage(stage) {
     `;
     return;
   }
+
+  const r32 = buildRoundOf32(qualified);
+  const r16 = buildNextRound(r32, "Vítěz 1/16");
+  const qf = buildNextRound(r16, "Vítěz osmifinále");
+  const sf = buildNextRound(qf, "Vítěz čtvrtfinále");
+  const final = buildNextRound(sf, "Vítěz semifinále");
+
+  container.innerHTML = `
+    ${renderBracketColumn("1/16 finále", r32)}
+    ${renderBracketColumn("Osmifinále", r16)}
+    ${renderBracketColumn("Čtvrtfinále", qf)}
+    ${renderBracketColumn("Semifinále", sf)}
+    ${renderBracketColumn("Finále", final)}
+  `;
+}
 
   const pairings = buildPlayoffPairings(qualified, stage);
 
@@ -599,4 +608,77 @@ function getStageLabel(stage) {
 function formatGoalDiff(value) {
   if (value > 0) return `+${value}`;
   return `${value}`;
+}
+function buildRoundOf32(qualified) {
+  const sorted = [...qualified].sort((a, b) => {
+    if (b.points !== a.points) return b.points - a.points;
+    if (b.goalDiff !== a.goalDiff) return b.goalDiff - a.goalDiff;
+    if (b.goalsFor !== a.goalsFor) return b.goalsFor - a.goalsFor;
+    return a.team.localeCompare(b.team, "cs");
+  });
+
+  const pairings = [];
+
+  for (let i = 0; i < 16; i++) {
+    pairings.push({
+      teamA: sorted[i],
+      teamB: sorted[31 - i],
+      label: `Zápas ${i + 1}`
+    });
+  }
+
+  return pairings;
+}
+
+function buildNextRound(previousRound, labelPrefix) {
+  const nextRound = [];
+
+  for (let i = 0; i < previousRound.length; i += 2) {
+    nextRound.push({
+      teamA: {
+        team: `${labelPrefix} ${i + 1}`,
+        flag: null
+      },
+      teamB: {
+        team: `${labelPrefix} ${i + 2}`,
+        flag: null
+      },
+      label: `Zápas ${nextRound.length + 1}`
+    });
+  }
+
+  return nextRound;
+}
+
+function renderBracketColumn(title, matches) {
+  return `
+    <div class="bracket-column">
+      <div class="bracket-column-title">${title}</div>
+
+      ${matches.map(match => `
+        <div class="bracket-match">
+          ${renderBracketTeam(match.teamA)}
+          <div class="bracket-vs">vs</div>
+          ${renderBracketTeam(match.teamB)}
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderBracketTeam(team) {
+  if (!team) {
+    return `<div class="bracket-team empty">TBD</div>`;
+  }
+
+  const flagHtml = team.flag
+    ? `<img src="./images/flags/${team.flag}.webp" class="table-flag" alt="${team.team}">`
+    : `<span class="bracket-placeholder">?</span>`;
+
+  return `
+    <div class="bracket-team">
+      ${flagHtml}
+      <span>${team.team}</span>
+    </div>
+  `;
 }
