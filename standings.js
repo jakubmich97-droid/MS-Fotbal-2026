@@ -491,17 +491,54 @@ function renderPlayoffStage() {
   }
 
   const r32 = buildRoundOf32(qualified);
-  const r16 = buildNextRound(r32, "Vítěz 1/16");
-  const qf = buildNextRound(r16, "Vítěz osmifinále");
-  const sf = buildNextRound(qf, "Vítěz čtvrtfinále");
-  const final = buildNextRound(sf, "Vítěz semifinále");
+
+  const leftR32 = r32.slice(0, 8);
+  const rightR32 = r32.slice(8, 16);
+
+  const leftR16 = buildNextRound(leftR32, "Vítěz zápasu");
+  const rightR16 = buildNextRound(rightR32, "Vítěz zápasu");
+
+  const leftQF = buildNextRound(leftR16, "Vítěz osmifinále");
+  const rightQF = buildNextRound(rightR16, "Vítěz osmifinále");
+
+  const leftSF = buildNextRound(leftQF, "Vítěz ČF");
+  const rightSF = buildNextRound(rightQF, "Vítěz ČF");
 
   container.innerHTML = `
-    ${renderBracketColumn("1/16 finále", r32)}
-    ${renderBracketColumn("Osmifinále", r16)}
-    ${renderBracketColumn("Čtvrtfinále", qf)}
-    ${renderBracketColumn("Semifinále", sf)}
-    ${renderBracketColumn("Finále", final)}
+    <div class="bracket-shell">
+
+      <div class="bracket-side bracket-left">
+        ${renderBracketColumn("1/16 finále", leftR32)}
+        ${renderBracketColumn("Osmifinále", leftR16)}
+        ${renderBracketColumn("Čtvrtfinále", leftQF)}
+        ${renderBracketColumn("Semifinále", leftSF)}
+      </div>
+
+      <div class="bracket-final">
+        <div class="final-card">
+          <div class="final-trophy">🏆</div>
+          <div class="final-title">Finále</div>
+
+          <div class="final-team">
+            ${renderBracketTeam({ team: "Vítěz levé větve", flag: null })}
+          </div>
+
+          <div class="bracket-vs">vs</div>
+
+          <div class="final-team">
+            ${renderBracketTeam({ team: "Vítěz pravé větve", flag: null })}
+          </div>
+        </div>
+      </div>
+
+      <div class="bracket-side bracket-right">
+        ${renderBracketColumn("Semifinále", rightSF)}
+        ${renderBracketColumn("Čtvrtfinále", rightQF)}
+        ${renderBracketColumn("Osmifinále", rightR16)}
+        ${renderBracketColumn("1/16 finále", rightR32)}
+      </div>
+
+    </div>
   `;
 }
 
