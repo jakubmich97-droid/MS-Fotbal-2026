@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Tabulky skupin · MS Fotbal 2026</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <p class="eyebrow">🌍 Tabulky a play-off</p>
+      <h1>MS Fotbal 2026</h1>
+      <p class="subtitle">
+        Aktuální pořadí skupin, tabulka třetích týmů a predikce play-off.
+      </p>
+
+      <nav class="top-nav">
+        <a href="./index.html" class="nav-link">⚽ Tipovačka</a>
+        <a href="./submit.html" class="nav-link">📝 Odeslat tip</a>
+        <a href="./betting.html" class="nav-link">💰 Sázky</a>
+        <a href="./standings.html" class="nav-link active">🌍 Skupiny / P-O</a>
+        <a href="./admin.html" class="nav-link">🔐 Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="standings-switch">
+        <button type="button" class="standings-tab active" data-view="groups">
+          📊 Skupiny
+        </button>
+
+        <button type="button" class="standings-tab" data-view="playoff">
+          🏆 Play-off predikce
+        </button>
+      </div>
+    </section>
+
+    <section id="groups-view" class="standings-view active">
+      <section class="section">
+        <div class="section-header">
+          <h2>📊 Skupiny A–L</h2>
+          <p>
+            První dva týmy z každé skupiny postupují přímo. O pořadí při shodě bodů rozhodují vzájemné zápasy.
+          </p>
+        </div>
+
+        <div id="groups-tables" class="groups-grid">
+          <div class="card rules">
+            Načítám skupiny...
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <h2>🥉 Tabulka třetích týmů</h2>
+          <p>
+            Z dvanácti týmů na 3. místě postupuje osm nejlepších do 1/16 finále.
+          </p>
+        </div>
+
+        <div class="card">
+          <table id="third-place-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Tým</th>
+                <th>Skupina</th>
+                <th>Z</th>
+                <th>V</th>
+                <th>R</th>
+                <th>P</th>
+                <th>Skóre</th>
+                <th>RG</th>
+                <th>Body</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td colspan="10">Načítám třetí týmy...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <section id="playoff-view" class="standings-view">
+      <section class="section">
+        <div class="section-header">
+          <h2>🏆 Predikce play-off</h2>
+          <p>
+            Predikce vychází z aktuálních tabulek skupin. Nasazení je zatím zjednodušené pro účely tipovačky.
+          </p>
+        </div>
+
+        <div class="playoff-stage-switch">
+          <button type="button" class="playoff-stage-btn active" data-stage="r32">
+            1/16 finále
+          </button>
+
+          <button type="button" class="playoff-stage-btn" data-stage="r16">
+            Osmifinále
+          </button>
+
+          <button type="button" class="playoff-stage-btn" data-stage="qf">
+            Čtvrtfinále
+          </button>
+
+          <button type="button" class="playoff-stage-btn" data-stage="sf">
+            Semifinále
+          </button>
+
+          <button type="button" class="playoff-stage-btn" data-stage="final">
+            Finále
+          </button>
+        </div>
+
+        <div id="playoff-bracket" class="playoff-bracket">
+          <div class="card rules">
+            Načítám predikci play-off...
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <h2>✅ Aktuálně postupující týmy</h2>
+          <p>
+            24 týmů z 1. a 2. míst + 8 nejlepších týmů ze 3. míst.
+          </p>
+        </div>
+
+        <div id="qualified-teams" class="qualified-grid">
+          <div class="card rules">
+            Načítám postupující...
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <p>⚽ MS Fotbal 2026 · skupiny, třetí týmy a play-off predikce</p>
+  </footer>
+
+  <script src="standings.js"></script>
+</body>
+</html>
