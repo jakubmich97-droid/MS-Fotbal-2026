@@ -2495,3 +2495,67 @@ footer {
 .bracket-right .bracket-column:first-child .bracket-match::after {
   display: none;
 }
+.bracket-shell {
+  align-items: center;
+}
+
+.bracket-side {
+  align-items: flex-start;
+}
+
+.bracket-column {
+  display: flex !important;
+  flex-direction: column;
+  align-self: flex-start;
+  gap: 24px;
+}
+
+.bracket-column-title {
+  height: auto;
+  min-height: 44px;
+  margin-bottom: 14px;
+}
+
+.bracket-match {
+  min-height: 86px;
+  height: auto;
+  margin-bottom: 0 !important;
+}
+
+/* levá větev – směrem k finále */
+.bracket-left .bracket-column:nth-child(1) {
+  padding-top: 0;
+}
+
+.bracket-left .bracket-column:nth-child(2) {
+  padding-top: 70px;
+}
+
+.bracket-left .bracket-column:nth-child(3) {
+  padding-top: 185px;
+}
+
+.bracket-left .bracket-column:nth-child(4) {
+  padding-top: 390px;
+}
+
+/* pravá větev – zrcadlově */
+.bracket-right .bracket-column:nth-child(1) {
+  padding-top: 390px;
+}
+
+.bracket-right .bracket-column:nth-child(2) {
+  padding-top: 185px;
+}
+
+.bracket-right .bracket-column:nth-child(3) {
+  padding-top: 70px;
+}
+
+.bracket-right .bracket-column:nth-child(4) {
+  padding-top: 0;
+}
+
+.bracket-final {
+  align-self: center;
+}
